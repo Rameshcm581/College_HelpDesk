@@ -33,6 +33,8 @@ const MainLayout: React.FC = () => {
           <Route path="/" element={<PublicChatbotPage />} />
           <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/admin/documents" element={<DocumentsPage />} />
+          <Route path="/staff" element={<AdminDashboardPage defaultTab="tickets" enforceRole="staff" />} />
+          <Route path="/staff/documents" element={<DocumentsPage />} />
           <Route path="/tickets" element={<TicketsPage />} />
         </Routes>
       </main>

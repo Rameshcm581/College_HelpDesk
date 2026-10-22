@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -11,7 +11,6 @@ import {
   LogOut,
   Shield,
   Building,
-  UserCheck,
   Lock,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -26,27 +25,53 @@ import { TicketsSection } from '../components/admin/TicketsSection';
 
 type AdminTab = 'overview' | 'tickets' | 'documents' | 'knowledge-gaps' | 'users' | 'config' | 'monitoring';
 
-export const AdminDashboardPage: React.FC = () => {
-  const { user, isAuthenticated, isLoading, logout, canManageUsers } = useAuth();
+interface AdminDashboardPageProps {
+  defaultTab?: AdminTab;
+  enforceRole?: 'staff' | 'admin';
+}
+
+export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ defaultTab, enforceRole }) => {
+  const { user, isAuthenticated, isLoading, logout, canManageUsers, isDepartmentStaff } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialTab = (searchParams.get('tab') as AdminTab) || 'overview';
+  
+  // For department staff, default to 'tickets' instead of 'overview'
+  const computedDefaultTab = defaultTab || (isDepartmentStaff ? 'tickets' : 'overview');
+  const initialTab = (searchParams.get('tab') as AdminTab) || computedDefaultTab;
   const [activeTab, setActiveTab] = useState<AdminTab>(initialTab);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [loginRoleTab, setLoginRoleTab] = useState<'staff' | 'admin'>('staff');
+
+  // Enforce staff tab restrictions
+  useEffect(() => {
+    if (isDepartmentStaff && activeTab !== 'tickets' && activeTab !== 'documents') {
+      setActiveTab('tickets');
+      setSearchParams({ tab: 'tickets' });
+    }
+  }, [isDepartmentStaff, activeTab, setSearchParams]);
 
   const handleTabChange = (tab: AdminTab) => {
+    if (isDepartmentStaff && tab !== 'tickets' && tab !== 'documents') {
+      return; // Disallow staff from navigating to executive console
+    }
     setActiveTab(tab);
     setSearchParams({ tab });
   };
 
-  const navItems = [
-    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { id: 'tickets', label: 'Support Tickets', icon: Ticket },
-    { id: 'documents', label: 'Document Management', icon: FileText },
-    { id: 'knowledge-gaps', label: 'Knowledge Gaps', icon: HelpCircle },
-    { id: 'users', label: 'Staff Accounts', icon: Users, locked: !canManageUsers },
-    { id: 'config', label: 'Configuration', icon: Settings },
-    { id: 'monitoring', label: 'Monitoring & Latency', icon: Activity },
-  ];
+  // Dedicated navigation tabs per role
+  const navItems = isDepartmentStaff
+    ? [
+        { id: 'tickets', label: 'Department Support Tickets', icon: Ticket },
+        { id: 'documents', label: 'Document Library', icon: FileText },
+      ]
+    : [
+        { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+        { id: 'tickets', label: 'Support Tickets', icon: Ticket },
+        { id: 'documents', label: 'Document Management', icon: FileText },
+        { id: 'knowledge-gaps', label: 'Knowledge Gaps', icon: HelpCircle },
+        { id: 'users', label: 'Staff Accounts', icon: Users, locked: !canManageUsers },
+        { id: 'config', label: 'Configuration', icon: Settings },
+        { id: 'monitoring', label: 'Monitoring & Latency', icon: Activity },
+      ];
 
   if (isLoading) {
     return (
@@ -67,20 +92,36 @@ export const AdminDashboardPage: React.FC = () => {
 
           <div className="space-y-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Institutional Administration Portal
+              {enforceRole === 'staff' ? 'Department Staff Operations Portal' : 'Institutional Administration Portal'}
             </h1>
             <p className="text-sm text-slate-500 max-w-lg mx-auto">
-              Access to document approval, knowledge gap auditing, institutional configuration, and system telemetry requires verified staff authentication.
+              {enforceRole === 'staff'
+                ? 'Department ticket triage, student issue escalation, and circular verification require authenticated staff credentials.'
+                : 'Universal RBAC oversight, document approval, RAG knowledge indexing, and system telemetry require authorized administrator credentials.'}
             </p>
           </div>
 
-          <div className="pt-2">
+          {/* Dual Action Sign-in Triggers */}
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
-              onClick={() => setIsLoginOpen(true)}
-              className="inline-flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg transition-all transform hover:-translate-y-0.5"
+              onClick={() => {
+                setLoginRoleTab('staff');
+                setIsLoginOpen(true);
+              }}
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 rounded-2xl font-bold text-sm shadow-md transition-all transform hover:-translate-y-0.5"
             >
-              <UserCheck className="w-5 h-5" />
-              <span>Sign In as Staff / Administrator</span>
+              <Users className="w-4 h-4" />
+              <span>Sign In as Department Staff</span>
+            </button>
+            <button
+              onClick={() => {
+                setLoginRoleTab('admin');
+                setIsLoginOpen(true);
+              }}
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-2xl font-bold text-sm shadow-md transition-all transform hover:-translate-y-0.5"
+            >
+              <Shield className="w-4 h-4 text-emerald-400" />
+              <span>Sign In as Administrator</span>
             </button>
           </div>
 
@@ -104,7 +145,11 @@ export const AdminDashboardPage: React.FC = () => {
           </div>
         </div>
 
-        <AdminLoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+        <AdminLoginModal
+          isOpen={isLoginOpen}
+          initialRoleTab={loginRoleTab}
+          onClose={() => setIsLoginOpen(false)}
+        />
       </div>
     );
   }
@@ -114,7 +159,7 @@ export const AdminDashboardPage: React.FC = () => {
       {/* Staff Session Header */}
       <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-card flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center space-x-3.5">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 text-white flex items-center justify-center font-bold text-base shadow">
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 text-white flex items-center justify-center font-bold text-base shadow shrink-0">
             {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'S'}
           </div>
           <div>
@@ -129,7 +174,7 @@ export const AdminDashboardPage: React.FC = () => {
               <span>{user?.email}</span>
               {user?.department_name && (
                 <span className="flex items-center text-slate-600">
-                  <Building className="w-3.5 h-3.5 mr-1 text-slate-400" />
+                  <Building className="w-3.5 h-3.5 mr-1 text-slate-400 shrink-0" />
                   {user.department_name}
                 </span>
               )}
@@ -147,6 +192,7 @@ export const AdminDashboardPage: React.FC = () => {
           </button>
         </div>
       </div>
+
 
       {/* Navigation Tabs Bar */}
       <div className="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-card overflow-x-auto">

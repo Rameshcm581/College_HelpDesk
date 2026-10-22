@@ -1,0 +1,1519 @@
+[
+  {
+    "id": "EN-01",
+    "query": "What is the annual tuition fee for B.E. Computer Science and Engineering under merit quota?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "85,000",
+      "Computer Science"
+    ]
+  },
+  {
+    "id": "EN-02",
+    "query": "How much is the annual tuition fee for B.E. Electronics and Communication Engineering?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "80,000",
+      "Electronics"
+    ]
+  },
+  {
+    "id": "EN-03",
+    "query": "What is the annual tuition fee for B.E. Mechanical Engineering?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "75,000",
+      "Mechanical"
+    ]
+  },
+  {
+    "id": "EN-04",
+    "query": "What is the tuition fee for B.Tech Artificial Intelligence?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "90,000",
+      "Artificial Intelligence"
+    ]
+  },
+  {
+    "id": "EN-05",
+    "query": "When is the payment due date for undergraduate tuition fees for 2025-2026?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "July 15, 2025"
+    ]
+  },
+  {
+    "id": "EN-06",
+    "query": "What Higher Secondary cut-off score is required for the merit scholarship 50% fee waiver?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "185.50",
+      "50%"
+    ]
+  },
+  {
+    "id": "EN-07",
+    "query": "What CGPA must be maintained to renew the undergraduate merit scholarship?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "8.50",
+      "arrears"
+    ]
+  },
+  {
+    "id": "EN-08",
+    "query": "What is the daily penalty for late admission fee payment?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "250",
+      "calendar day"
+    ]
+  },
+  {
+    "id": "EN-09",
+    "query": "Until what date can late admission fees be remitted before unconfirmed seats are forfeited?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "July 31, 2025",
+      "forfeited"
+    ]
+  },
+  {
+    "id": "EN-10",
+    "query": "How much is the hostel caution deposit and is it refundable?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "5,000",
+      "Refundable"
+    ]
+  },
+  {
+    "id": "EN-11",
+    "query": "Where is the Hostel Warden Office located?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "Room #102",
+      "Block-B"
+    ]
+  },
+  {
+    "id": "EN-12",
+    "query": "What is the annual mess advance fee for hostel residents?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "42,000",
+      "monthly billing"
+    ]
+  },
+  {
+    "id": "EN-13",
+    "query": "How much does twin sharing hostel room rent cost per academic year?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "28,000",
+      "Twin Sharing"
+    ]
+  },
+  {
+    "id": "EN-14",
+    "query": "What is the annual room rent for single occupancy in the hostel?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "38,000",
+      "Single Occupancy"
+    ]
+  },
+  {
+    "id": "EN-15",
+    "query": "What is the deadline for paying hostel and mess fees?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "July 31, 2025"
+    ]
+  },
+  {
+    "id": "EN-16",
+    "query": "What is the late fee penalty per day for hostel payments?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "100 per day"
+    ]
+  },
+  {
+    "id": "EN-17",
+    "query": "What happens if a student fails to clear hostel fees by August 15, 2025?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "cancellation",
+      "room allotment"
+    ]
+  },
+  {
+    "id": "EN-18",
+    "query": "What are the hostel breakfast, lunch, and dinner timings?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "07:30 AM",
+      "12:30 PM",
+      "07:30 PM"
+    ]
+  },
+  {
+    "id": "EN-19",
+    "query": "Is food permitted to be taken outside the hostel dining hall?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "cannot be taken outside"
+    ]
+  },
+  {
+    "id": "EN-20",
+    "query": "What is the minimum attendance percentage required to get an exam hall ticket?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "75%",
+      "attendance"
+    ]
+  },
+  {
+    "id": "EN-21",
+    "query": "What attendance range qualifies for medical condonation?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "65%",
+      "74%"
+    ]
+  },
+  {
+    "id": "EN-22",
+    "query": "How much is the attendance condonation fee?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "1,500"
+    ]
+  },
+  {
+    "id": "EN-23",
+    "query": "What document must be submitted for attendance condonation on medical grounds?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "Government Hospital Medical Certificate"
+    ]
+  },
+  {
+    "id": "EN-24",
+    "query": "What happens if a student's attendance falls below 65%?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "NOT eligible",
+      "repeat the semester"
+    ]
+  },
+  {
+    "id": "EN-25",
+    "query": "Within how many days of result declaration must a student apply for revaluation?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "10 days"
+    ]
+  },
+  {
+    "id": "EN-26",
+    "query": "What is the fee for end-semester revaluation per subject?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "750 per subject"
+    ]
+  },
+  {
+    "id": "EN-27",
+    "query": "How much does it cost to request a photocopy of an evaluated examination answer script?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "300 per script"
+    ]
+  },
+  {
+    "id": "EN-28",
+    "query": "What are the Controller of Examinations office operating hours and location?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "09:30 AM",
+      "04:30 PM",
+      "Second Floor"
+    ]
+  },
+  {
+    "id": "EN-29",
+    "query": "Who is the approving authority for the 2025-2026 undergraduate admissions and fee structure?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "College Academic Governing Council"
+    ]
+  },
+  {
+    "id": "EN-30",
+    "query": "Which office promulgates the end-semester attendance and examination rules?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "Controller of Examinations"
+    ]
+  },
+  {
+    "id": "EN-31-H",
+    "query": "Tell me about the rules regarding exam revaluation and script photocopy.",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "750",
+      "300"
+    ]
+  },
+  {
+    "id": "EN-32-H",
+    "query": "Can students with 60% attendance write the semester examination?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "repeat the semester",
+      "below 65%"
+    ]
+  },
+  {
+    "id": "EN-33-H",
+    "query": "What is the single room hostel fee including caution deposit and mess advance?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "38,000",
+      "5,000",
+      "42,000"
+    ]
+  },
+  {
+    "id": "EN-34-H",
+    "query": "If I remit tuition fees on July 20, 2025, how much late fee must I pay?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "250",
+      "July 15"
+    ]
+  },
+  {
+    "id": "EN-35-H",
+    "query": "What happens if a student has standing arrears regarding merit scholarship renewal?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "standing arrears",
+      "8.50"
+    ]
+  },
+  {
+    "id": "EN-36-H",
+    "query": "Can students take lunch outside the dining hall?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "cannot be taken outside"
+    ]
+  },
+  {
+    "id": "EN-37-H",
+    "query": "What are the operating hours of the COE enquiry window for mark sheet corrections?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "09:30 AM",
+      "04:30 PM"
+    ]
+  },
+  {
+    "id": "EN-38-H",
+    "query": "Where do I report for hall ticket grievances?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "Administrative Block",
+      "Second Floor"
+    ]
+  },
+  {
+    "id": "EN-39-H",
+    "query": "What is the annual tuition fee for B.E. Computer Science under merit quota?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "85,000"
+    ]
+  },
+  {
+    "id": "EN-40-H",
+    "query": "What is the condonation fee for attendance between 65% and 74%?",
+    "language": "en",
+    "query_type": "en_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "1,500"
+    ]
+  },
+  {
+    "id": "TA-EN-01",
+    "query": "விடுதி காப்பு வைப்புத்தொகை எவ்வளவு மற்றும் அது திரும்பப் பெறக்கூடியதா?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "5,000",
+      "Refundable"
+    ]
+  },
+  {
+    "id": "TA-EN-02",
+    "query": "கணினி அறிவியல் (CSE) கல்வி கட்டணம் எவ்வளவு?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "85,000"
+    ]
+  },
+  {
+    "id": "TA-EN-03",
+    "query": "மின்னணுவியல் மற்றும் தகவல் தொடர்பு (ECE) கல்வி கட்டணம் என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "80,000"
+    ]
+  },
+  {
+    "id": "TA-EN-04",
+    "query": "இயந்திரவியல் பொறியியல் (Mechanical Engineering) ஆண்டு கட்டணம் என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "75,000"
+    ]
+  },
+  {
+    "id": "TA-EN-05",
+    "query": "செயற்கை நுண்ணறிவு (Artificial Intelligence) கல்வி கட்டணம் எவ்வளவு?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "90,000"
+    ]
+  },
+  {
+    "id": "TA-EN-06",
+    "query": "கல்விக் கட்டணம் செலுத்த கடைசி தேதி என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "July 15, 2025"
+    ]
+  },
+  {
+    "id": "TA-EN-07",
+    "query": "தகுதி உதவித்தொகை பெற எவ்வளவு கட் ஆப் மதிப்பெண் தேவை?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "185.50"
+    ]
+  },
+  {
+    "id": "TA-EN-08",
+    "query": "சேர்க்கைக் கட்டணம் தாமதமாக செலுத்தினால் நாள் ஒன்றுக்கு அபராதம் எவ்வளவு?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "250"
+    ]
+  },
+  {
+    "id": "TA-EN-09",
+    "query": "மாணவர் விடுதி வார்டன் அலுவலகம் எங்கு உள்ளது?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "Room #102",
+      "Block-B"
+    ]
+  },
+  {
+    "id": "TA-EN-10",
+    "query": "ஆண்டு விடுதி உணவு முன்பணம் எவ்வளவு?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "42,000"
+    ]
+  },
+  {
+    "id": "TA-EN-11",
+    "query": "இருவர் பகிரும் விடுதி அறை வாடகை எவ்வளவு?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "28,000"
+    ]
+  },
+  {
+    "id": "TA-EN-12",
+    "query": "தனிநபர் விடுதி அறை கட்டணம் ஆண்டுக்கு எவ்வளவு?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "38,000"
+    ]
+  },
+  {
+    "id": "TA-EN-13",
+    "query": "விடுதிக் கட்டணம் செலுத்த கடைசி நாள் எப்போது?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "July 31, 2025"
+    ]
+  },
+  {
+    "id": "TA-EN-14",
+    "query": "விடுதிக் கட்டணம் தாமத அபராதம் ஒரு நாளைக்கு எவ்வளவு?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "100"
+    ]
+  },
+  {
+    "id": "TA-EN-15",
+    "query": "விடுதி உணவுக்கூடம் இயங்கும் நேரங்கள் என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "07:30 AM",
+      "12:30 PM",
+      "07:30 PM"
+    ]
+  },
+  {
+    "id": "TA-EN-16",
+    "query": "தேர்வு எழுத குறைந்தபட்ச வருகைப் பதிவு எத்தனை சதவீதம் இருக்க வேண்டும்?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "75%"
+    ]
+  },
+  {
+    "id": "TA-EN-17",
+    "query": "மருத்துவ காரணங்களுக்காக வருகைப் பதிவு தளர்வு பெற கட்டணம் எவ்வளவு?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "1,500"
+    ]
+  },
+  {
+    "id": "TA-EN-18",
+    "query": "விடைத்தாள் மறுமதிப்பீடு விண்ணப்பிக்க கடைசி தேதி மற்றும் கட்டணம் என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "750",
+      "10 days"
+    ]
+  },
+  {
+    "id": "TA-EN-19",
+    "query": "விடைத்தாள் நகல் பெற கட்டணம் எவ்வளவு செலுத்த வேண்டும்?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "300"
+    ]
+  },
+  {
+    "id": "TA-EN-20",
+    "query": "தேர்வுக் கட்டுப்பாட்டு அதிகாரி (COE) அலுவலக நேரம் என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "09:30 AM",
+      "04:30 PM"
+    ]
+  },
+  {
+    "id": "TA-EN-21-H",
+    "query": "65 சதவீதத்திற்கும் குறைவான வருகைப்பதிவு இருந்தால் என்ன நேரிடும்?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "repeat the semester"
+    ]
+  },
+  {
+    "id": "TA-EN-22-H",
+    "query": "விடுதி உணவை அறைக்கு எடுத்துச் செல்லலாமா?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "cannot be taken outside"
+    ]
+  },
+  {
+    "id": "TA-EN-23-H",
+    "query": "மெரிட் ஸ்காலர்ஷிப் புதுப்பிக்க குறைந்தபட்ச சி.ஜி.பி.ஏ எவ்வளவு தேவை?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "8.50"
+    ]
+  },
+  {
+    "id": "TA-EN-24-H",
+    "query": "ஆகஸ்ட் 15 வரை விடுதி கட்டணம் செலுத்தவில்லை என்றால் அறை ஒதுக்கீடு ரத்தாகுமா?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "cancellation"
+    ]
+  },
+  {
+    "id": "TA-EN-25-H",
+    "query": "மருத்துவ தளர்வுக்கு எந்த மருத்துவமனை சான்றிதழ் சமர்ப்பிக்க வேண்டும்?",
+    "language": "ta",
+    "query_type": "ta_to_en",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "Government Hospital Medical Certificate"
+    ]
+  },
+  {
+    "id": "TA-TA-01",
+    "query": "முதல் தலைமுறை பட்டதாரி கல்வி உதவித்தொகை எவ்வளவு வழங்கப்படுகிறது?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "25,000",
+      "பட்டதாரி"
+    ]
+  },
+  {
+    "id": "TA-TA-02",
+    "query": "முதல் தலைமுறை பட்டதாரி சலுகை பெற யாரிடம் சான்றிதழ் பெற வேண்டும்?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "வட்டாட்சியர்",
+      "Tahsildar"
+    ]
+  },
+  {
+    "id": "TA-TA-03",
+    "query": "மாநில அளவில் தங்கம் வென்ற விளையாட்டு வீரர்களுக்கு என்ன சலுகை உண்டு?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "100%",
+      "50%"
+    ]
+  },
+  {
+    "id": "TA-TA-04",
+    "query": "தேசிய அளவிலான விளையாட்டு வீரர்களுக்கு கட்டண விலக்கு உண்டா?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "முழு கட்டண விலக்கு",
+      "100%"
+    ]
+  },
+  {
+    "id": "TA-TA-05",
+    "query": "கல்வி உதவித்தொகை விண்ணப்பங்களை சமர்ப்பிக்க கடைசி தேதி என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "ஆகஸ்ட் 25, 2025",
+      "August 25, 2025"
+    ]
+  },
+  {
+    "id": "TA-TA-06",
+    "query": "மாணவர் நல அலுவலகம் எந்த அறையில் உள்ளது?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "அறை எண் 105",
+      "105"
+    ]
+  },
+  {
+    "id": "TA-TA-07",
+    "query": "மாணவர் நல அலுவலகத்தில் விண்ணப்பம் சமர்ப்பிக்கும் வேலை நேரம் என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "10:00",
+      "04:00"
+    ]
+  },
+  {
+    "id": "TA-TA-08",
+    "query": "கல்வி உதவித்தொகை சுற்றறிக்கை எண் என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "SJCET/SCH/2025/04"
+    ]
+  },
+  {
+    "id": "TA-TA-09",
+    "query": "தாமதமாக வரும் உதவித்தொகை விண்ணப்பங்கள் ஏற்றுக்கொள்ளப்படுமா?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "ஏற்றுக்கொள்ளப்பட மாட்டாது"
+    ]
+  },
+  {
+    "id": "TA-TA-10",
+    "query": "விளையாட்டு வீரர்களுக்கு தங்கும் விடுதி கட்டண விலக்கு உண்டா?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "100% தங்கும் விடுதி"
+    ]
+  },
+  {
+    "id": "TA-TA-11-H",
+    "query": "முதல் பட்டதாரி உதவித்தொகை விவரங்கள் என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "25,000"
+    ]
+  },
+  {
+    "id": "TA-TA-12-H",
+    "query": "ஆகஸ்ட் 25 க்கு பிறகு உதவித்தொகை விண்ணப்பிக்க முடியுமா?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "ஏற்றுக்கொள்ளப்பட மாட்டாது"
+    ]
+  },
+  {
+    "id": "TA-TA-13-H",
+    "query": "விளையாட்டு கோட்டா மூலம் விடுதிக் கட்டணம் தள்ளுபடி பெற தகுதி என்ன?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "தங்கம் வென்ற"
+    ]
+  },
+  {
+    "id": "TA-TA-14-H",
+    "query": "மாணவர் நல அலுவலகம் எங்கு அமைந்துள்ளது?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "முதன்மை வளாக",
+      "105"
+    ]
+  },
+  {
+    "id": "TA-TA-15-H",
+    "query": "முதல் பட்டதாரி சான்றிதழ் யாரிடம் சமர்ப்பிக்க வேண்டும்?",
+    "language": "ta",
+    "query_type": "ta_to_ta",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "மாணவர் நல அலுவலகம்"
+    ]
+  },
+  {
+    "id": "EN-TA-01",
+    "query": "What is the fee concession amount for first graduate students?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "25,000",
+      "பட்டதாரி"
+    ]
+  },
+  {
+    "id": "EN-TA-02",
+    "query": "Who must issue the certificate for first graduate scholarship eligibility?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "Tahsildar",
+      "வட்டாட்சியர்"
+    ]
+  },
+  {
+    "id": "EN-TA-03",
+    "query": "What concessions are granted to state-level gold medal winning sports students?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "100%",
+      "50%"
+    ]
+  },
+  {
+    "id": "EN-TA-04",
+    "query": "Do national level sports medalists receive a full fee waiver?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "முழு கட்டண விலக்கு",
+      "100%"
+    ]
+  },
+  {
+    "id": "EN-TA-05",
+    "query": "What is the last date to apply for scholarship and fee concessions?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "August 25, 2025",
+      "ஆகஸ்ட் 25"
+    ]
+  },
+  {
+    "id": "EN-TA-06",
+    "query": "Where is the Student Welfare Office located for submitting scholarship forms?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "Room 105",
+      "105"
+    ]
+  },
+  {
+    "id": "EN-TA-07",
+    "query": "What are the office timings for submitting scholarship forms?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "10:00",
+      "04:00"
+    ]
+  },
+  {
+    "id": "EN-TA-08",
+    "query": "What is the circular reference number for scholarships?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "SJCET/SCH/2025/04"
+    ]
+  },
+  {
+    "id": "EN-TA-09-H",
+    "query": "Are late applications accepted for the first graduate scholarship?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "ஏற்றுக்கொள்ளப்பட மாட்டாது"
+    ]
+  },
+  {
+    "id": "EN-TA-10-H",
+    "query": "Can state sports quota students get 100% hostel fee exemption?",
+    "language": "en",
+    "query_type": "en_to_ta",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "100%"
+    ]
+  },
+  {
+    "id": "TL-01",
+    "query": "hostel caution deposit evvalavu?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "5,000",
+      "Refundable"
+    ]
+  },
+  {
+    "id": "TL-02",
+    "query": "cse annual tuition fees ethana?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 1,
+    "expected_keywords": [
+      "85,000"
+    ]
+  },
+  {
+    "id": "TL-03",
+    "query": "exam attendance percentage ethana kattayam thevai?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "75%"
+    ]
+  },
+  {
+    "id": "TL-04",
+    "query": "mess advance kattanam evvalavu katta vendum?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "42,000"
+    ]
+  },
+  {
+    "id": "TL-05",
+    "query": "revaluation fees kattanam evvalavu per subject?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "750"
+    ]
+  },
+  {
+    "id": "TL-06",
+    "query": "hostel room twin sharing vadagai evvalavu?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "28,000"
+    ]
+  },
+  {
+    "id": "TL-07",
+    "query": "attendance condonation fee kattanam evvalavu?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 3,
+    "expected_keywords": [
+      "1,500"
+    ]
+  },
+  {
+    "id": "TL-08",
+    "query": "scholarship application submit panna last date eppo?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": false,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "August 25, 2025",
+      "ஆகஸ்ட் 25"
+    ]
+  },
+  {
+    "id": "TL-09-H",
+    "query": "hostel late fee penalty evvalavu?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "St. Jude College Academic & Campus Regulations 2025-2026",
+    "expected_page": 2,
+    "expected_keywords": [
+      "100"
+    ]
+  },
+  {
+    "id": "TL-10-H",
+    "query": "first graduate scholarship amount evvalavu kedaikkum?",
+    "language": "ta-Latn",
+    "query_type": "tanglish",
+    "is_holdout": true,
+    "expected_fallback": false,
+    "expected_doc_title": "கல்வி உதவித்தொகை மற்றும் கட்டண சலுகை சுற்றறிக்கை",
+    "expected_page": 1,
+    "expected_keywords": [
+      "25,000"
+    ]
+  },
+  {
+    "id": "SAFE-01",
+    "query": "Who won the 1994 FIFA world cup tournament in soccer?",
+    "language": "en",
+    "query_type": "out_of_scope",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-02",
+    "query": "Explain Newton's third law of motion with a real-life formula.",
+    "language": "en",
+    "query_type": "out_of_scope",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-03",
+    "query": "How do I make a chocolate brownie cake at home?",
+    "language": "en",
+    "query_type": "out_of_scope",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-04",
+    "query": "fee",
+    "language": "en",
+    "query_type": "ambiguous",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-05",
+    "query": "fees details",
+    "language": "en",
+    "query_type": "ambiguous",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-06",
+    "query": "கட்டணம்",
+    "language": "ta",
+    "query_type": "ambiguous",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-07",
+    "query": "What was the B.E. CSE tuition fee in the academic year 2021-2022?",
+    "language": "en",
+    "query_type": "older_year",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-08",
+    "query": "What were the college hostel room rent rates during 2022-2023?",
+    "language": "en",
+    "query_type": "older_year",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-09",
+    "query": "2020-2021 ஆம் ஆண்டிற்கான கல்லூரிக் கட்டணம் என்ன?",
+    "language": "ta",
+    "query_type": "older_year",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-10",
+    "query": "Is there a free Apple MacBook distribution scheme for first-year engineering students?",
+    "language": "en",
+    "query_type": "unsupported",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-11",
+    "query": "Does the college provide free swimming pool and horse riding facilities?",
+    "language": "en",
+    "query_type": "unsupported",
+    "is_holdout": false,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-12-H",
+    "query": "Who is the Prime Minister of Australia?",
+    "language": "en",
+    "query_type": "out_of_scope",
+    "is_holdout": true,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-13-H",
+    "query": "cost",
+    "language": "en",
+    "query_type": "ambiguous",
+    "is_holdout": true,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-14-H",
+    "query": "2023-2024 ஆம் ஆண்டிற்கான தேர்வு விதிமுறைகள் என்ன?",
+    "language": "ta",
+    "query_type": "older_year",
+    "is_holdout": true,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  },
+  {
+    "id": "SAFE-15-H",
+    "query": "Can students bring private helicopters to the college campus?",
+    "language": "en",
+    "query_type": "unsupported",
+    "is_holdout": true,
+    "expected_fallback": true,
+    "expected_doc_title": null,
+    "expected_page": null,
+    "expected_keywords": []
+  }
+]

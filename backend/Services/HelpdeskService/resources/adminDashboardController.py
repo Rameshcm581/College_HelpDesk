@@ -282,11 +282,21 @@ async def get_knowledge_gaps(
         else:
             clusters["General / Out of Scope"].append(item)
 
+    dept_map = {
+        "Hostel & Campus Facilities": "Hostel Administration",
+        "Fees, Fines & Concessions": "Accounts & Finance",
+        "Admissions & Cutoffs": "Admissions Office",
+        "Examinations & Attendance": "Controller of Examinations",
+        "General / Out of Scope": "Dean of Academics",
+    }
+
     formatted_negative = [
         {
             "id": str(m.id),
             "session_id": str(m.session_id),
+            "query": m.content[:120] if m.content else "User inquiry",
             "response": m.content,
+            "response_preview": m.content[:120] if m.content else "",
             "confidence_score": m.confidence_score,
             "language": m.language_code,
             "feedback": m.user_feedback,
@@ -296,17 +306,30 @@ async def get_knowledge_gaps(
     ]
 
     cluster_summary = [
-        {"topic": topic, "count": len(items), "sample_items": items[:3]}
-        for topic, items in clusters.items()
+        {
+            "cluster_id": f"cluster-{idx}",
+            "topic": topic,
+            "count": len(items),
+            "suggested_department": dept_map.get(topic, "Dean of Academics"),
+            "status": "Documentation Needed",
+            "sample_items": items[:3],
+        }
+        for idx, (topic, items) in enumerate(clusters.items())
         if items
     ]
 
     return ApiResponse(
         success=True,
         data={
+            "summary": {
+                "total_fallbacks": len(formatted_unanswered),
+                "negative_ratings": len(formatted_negative),
+                "identified_topics": len(cluster_summary),
+            },
             "total_unanswered": len(formatted_unanswered),
             "total_negative_feedback": len(formatted_negative),
             "unanswered_questions": formatted_unanswered,
+            "negative_feedback": formatted_negative,
             "negative_feedback_items": formatted_negative,
             "topic_clusters": cluster_summary,
         },
@@ -586,10 +609,13 @@ async def get_monitoring_telemetry(
     failed_jobs = [
         {
             "id": str(j.id),
+            "document_title": j.file_name,
             "file_name": j.file_name,
             "error_message": j.error_message or "Unknown failure",
             "error_traceback": (j.error_traceback[:250] + "...") if j.error_traceback else None,
             "retry_count": j.retry_count,
+            "failed_at": j.created_at.isoformat() if j.created_at else None,
+            "job_type": "PDF OCR Extraction",
             "created_at": j.created_at.isoformat() if j.created_at else None,
         }
         for j in failed_jobs_res.scalars().all()
@@ -602,17 +628,21 @@ async def get_monitoring_telemetry(
         .order_by(AuditLogs.created_at.desc())
         .limit(20)
     )
-    recent_errors = [
+    application_errors = [
         {
             "id": str(a.id),
+            "timestamp": a.created_at.isoformat() if a.created_at else None,
+            "status_code": 500,
+            "path": a.entity_name or "/api/v1/chat",
+            "error_type": a.action or "INTERNAL_ERROR",
+            "details": str(a.new_values) if a.new_values else "System audit error",
             "action": a.action,
             "entity": a.entity_name,
-            "details": a.new_values,
             "ip_address": a.ip_address,
-            "timestamp": a.created_at.isoformat() if a.created_at else None,
         }
         for a in recent_errors_res.scalars().all()
     ]
+    recent_errors = application_errors
 
     # 3. Query Latency Breakdown
     latencies_res = await db.execute(select(ChatMessages.latency_ms).where(ChatMessages.latency_ms > 0).order_by(ChatMessages.latency_ms.asc()))
@@ -620,9 +650,9 @@ async def get_monitoring_telemetry(
 
     p50_latency = latencies[len(latencies) // 2] if latencies else 12.0
     p95_latency = latencies[int(len(latencies) * 0.95)] if latencies else 28.0
+    p99_latency = latencies[int(len(latencies) * 0.99)] if latencies else 45.0
 
     # 4. AI Cost and Token Usage Telemetry
-    # Summarize from ChatMessages and ApiUsageMetrics
     token_stats = (await db.execute(
         select(
             func.coalesce(func.sum(ChatMessages.prompt_tokens), 0).label("prompt"),
@@ -634,6 +664,8 @@ async def get_monitoring_telemetry(
     total_prompt = int(token_stats["prompt"])
     total_completion = int(token_stats["completion"])
     total_ai_queries = int(token_stats["total_queries"])
+    total_requests = max(total_ai_queries, len(latencies))
+    error_rate = round((len(application_errors) / max(total_requests, 1)) * 100, 2)
 
     # Pricing formula based on text-embedding-3-small ($0.02 / 1M) & gpt-4o-mini ($0.15/1M input, $0.60/1M output)
     estimated_usd = (total_prompt * 0.00000015) + (total_completion * 0.00000060)
@@ -642,15 +674,28 @@ async def get_monitoring_telemetry(
     return ApiResponse(
         success=True,
         data={
-            "ingestion_failures": {
-                "count": len(failed_jobs),
-                "items": failed_jobs,
-            },
+            "ingestion_failures": failed_jobs,
+            "application_errors": application_errors,
             "recent_errors": recent_errors,
+            "performance_latency": {
+                "total_requests": total_requests,
+                "p50_ms": round(float(p50_latency), 1),
+                "p95_ms": round(float(p95_latency), 1),
+                "p99_ms": round(float(p99_latency), 1),
+                "error_rate_pct": error_rate,
+            },
             "latency_metrics": {
                 "p50_ms": round(float(p50_latency), 1),
                 "p95_ms": round(float(p95_latency), 1),
+                "p99_ms": round(float(p99_latency), 1),
                 "total_measured_requests": len(latencies),
+            },
+            "ai_token_usage_cost": {
+                "total_prompt_tokens": total_prompt,
+                "total_completion_tokens": total_completion,
+                "total_tokens": total_prompt + total_completion,
+                "estimated_cost_usd": round(estimated_usd, 4),
+                "estimated_cost_inr": round(estimated_inr, 2),
             },
             "ai_usage": {
                 "total_prompt_tokens": total_prompt,

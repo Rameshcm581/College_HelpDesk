@@ -108,7 +108,7 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-3xl font-bold text-slate-900">{data.summary.identified_topics}</span>
+            <span className="text-3xl font-bold text-slate-900">{data.summary?.identified_topics ?? data.topic_clusters?.length ?? 0}</span>
             <p className="text-xs text-slate-500 mt-1">Grouped by query similarity & intent</p>
           </div>
         </div>
@@ -123,7 +123,7 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-3xl font-bold text-amber-600">{data.summary.total_fallbacks}</span>
+            <span className="text-3xl font-bold text-amber-600">{data.summary?.total_fallbacks ?? data.unanswered_questions?.length ?? 0}</span>
             <p className="text-xs text-slate-500 mt-1">Similarity below threshold (τ &lt; 0.72)</p>
           </div>
         </div>
@@ -138,7 +138,7 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-3xl font-bold text-rose-600">{data.summary.negative_ratings}</span>
+            <span className="text-3xl font-bold text-rose-600">{data.summary?.negative_ratings ?? data.negative_feedback?.length ?? 0}</span>
             <p className="text-xs text-slate-500 mt-1">Student feedback marked as unhelpful</p>
           </div>
         </div>
@@ -156,7 +156,7 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
             }`}
           >
             <Layers className="w-4 h-4" />
-            <span>Grouped Topic Clusters ({data.topic_clusters.length})</span>
+            <span>Grouped Topic Clusters ({data.topic_clusters?.length ?? 0})</span>
           </button>
           <button
             onClick={() => setActiveTab('FALLBACKS')}
@@ -167,7 +167,7 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
             }`}
           >
             <HelpCircle className="w-4 h-4" />
-            <span>Unanswered Questions Log ({data.unanswered_questions.length})</span>
+            <span>Unanswered Questions Log ({data.unanswered_questions?.length ?? 0})</span>
           </button>
           <button
             onClick={() => setActiveTab('NEGATIVE')}
@@ -178,7 +178,7 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
             }`}
           >
             <ThumbsDown className="w-4 h-4" />
-            <span>Negative Feedback ({data.negative_feedback.length})</span>
+            <span>Negative Feedback ({data.negative_feedback?.length ?? 0})</span>
           </button>
         </nav>
       </div>
@@ -186,7 +186,7 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
       {/* TAB 1: TOPIC CLUSTERS */}
       {activeTab === 'CLUSTERS' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.topic_clusters.map((cluster) => (
+          {(data.topic_clusters || []).map((cluster) => (
             <div
               key={cluster.cluster_id}
               className="bg-white rounded-2xl border border-slate-200 p-5 shadow-card hover:border-brand-300 transition-all flex flex-col justify-between space-y-4"
@@ -232,13 +232,13 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
       {/* TAB 2: UNANSWERED QUESTIONS */}
       {activeTab === 'FALLBACKS' && (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-card overflow-hidden">
-          {data.unanswered_questions.length === 0 ? (
+          {(data.unanswered_questions || []).length === 0 ? (
             <div className="p-8 text-center text-xs text-slate-500">
               No unanswered questions currently recorded.
             </div>
           ) : (
             <div className="divide-y divide-slate-100 text-xs">
-              {data.unanswered_questions.map((q) => (
+              {(data.unanswered_questions || []).map((q) => (
                 <div key={q.id} className="p-4 hover:bg-slate-50/80 transition-colors flex items-start justify-between gap-4">
                   <div className="space-y-1">
                     <div className="font-semibold text-slate-900 text-sm">"{q.query}"</div>
@@ -264,13 +264,13 @@ export const KnowledgeGapsSection: React.FC<KnowledgeGapsSectionProps> = ({ onAd
       {/* TAB 3: NEGATIVE FEEDBACK */}
       {activeTab === 'NEGATIVE' && (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-card overflow-hidden">
-          {data.negative_feedback.length === 0 ? (
+          {(data.negative_feedback || []).length === 0 ? (
             <div className="p-8 text-center text-xs text-slate-500">
               No negative feedback recorded. Students are finding answers accurate!
             </div>
           ) : (
             <div className="divide-y divide-slate-100 text-xs">
-              {data.negative_feedback.map((item) => (
+              {(data.negative_feedback || []).map((item) => (
                 <div key={item.id} className="p-4 hover:bg-slate-50/80 transition-colors space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900 text-sm">Query: "{item.query}"</span>

@@ -9,6 +9,8 @@ import { DocumentsPage } from './pages/DocumentsPage';
 import { TicketsPage } from './pages/TicketsPage';
 import { ChatbotWidget } from './components/ChatbotWidget';
 
+import { useAuth } from './context/AuthContext';
+
 const WidgetFrameRoute: React.FC = () => {
   return (
     <div className="w-full h-full min-h-screen bg-transparent flex flex-col justify-end p-2 sm:p-4">
@@ -19,10 +21,26 @@ const WidgetFrameRoute: React.FC = () => {
 
 const MainLayout: React.FC = () => {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
   const isWidgetRoute = location.pathname.startsWith('/widget');
+  const isAdminOrStaffRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/staff');
 
   if (isWidgetRoute) {
     return <WidgetFrameRoute />;
+  }
+
+  // When authenticated on admin/staff routes, render full-height dedicated SaaS Admin Panel
+  if (isAdminOrStaffRoute && isAuthenticated) {
+    return (
+      <div className="h-screen w-screen overflow-hidden bg-slate-100">
+        <Routes>
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin/documents" element={<AdminDashboardPage defaultTab="documents" />} />
+          <Route path="/staff" element={<AdminDashboardPage defaultTab="tickets" enforceRole="staff" />} />
+          <Route path="/staff/documents" element={<AdminDashboardPage defaultTab="documents" enforceRole="staff" />} />
+        </Routes>
+      </div>
+    );
   }
 
   return (

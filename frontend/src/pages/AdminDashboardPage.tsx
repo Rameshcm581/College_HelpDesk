@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  Ticket,
-  FileText,
-  HelpCircle,
-  Users,
-  Settings,
-  Activity,
-  LogOut,
+  Menu,
+  ShieldCheck,
+  Bot,
+  ExternalLink,
   Shield,
-  Building,
+  LogOut,
+  Users,
   Lock,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { AdminLoginModal } from '../components/AdminLoginModal';
+import { AdminSidebar, AdminTab } from '../components/admin/AdminSidebar';
 import { OverviewSection } from '../components/admin/OverviewSection';
 import { DocumentsSection } from '../components/admin/DocumentsSection';
 import { KnowledgeGapsSection } from '../components/admin/KnowledgeGapsSection';
@@ -23,23 +21,33 @@ import { ConfigSection } from '../components/admin/ConfigSection';
 import { MonitoringSection } from '../components/admin/MonitoringSection';
 import { TicketsSection } from '../components/admin/TicketsSection';
 
-type AdminTab = 'overview' | 'tickets' | 'documents' | 'knowledge-gaps' | 'users' | 'config' | 'monitoring';
-
 interface AdminDashboardPageProps {
   defaultTab?: AdminTab;
   enforceRole?: 'staff' | 'admin';
 }
 
+const tabTitles: Record<AdminTab, string> = {
+  overview: 'Executive Overview & Real-Time Metrics',
+  tickets: 'Support Tickets & Queue Management',
+  documents: 'Document Repository & Verification Lifecycle',
+  'knowledge-gaps': 'Knowledge Gaps & Unanswered Queries',
+  users: 'Staff User Management & RBAC Permissions',
+  config: 'Institutional Branding & AI Configuration',
+  monitoring: 'System Observability, Latency & AI Telemetry',
+};
+
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ defaultTab, enforceRole }) => {
   const { user, isAuthenticated, isLoading, logout, canManageUsers, isDepartmentStaff } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   // For department staff, default to 'tickets' instead of 'overview'
   const computedDefaultTab = defaultTab || (isDepartmentStaff ? 'tickets' : 'overview');
   const initialTab = (searchParams.get('tab') as AdminTab) || computedDefaultTab;
   const [activeTab, setActiveTab] = useState<AdminTab>(initialTab);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [loginRoleTab, setLoginRoleTab] = useState<'staff' | 'admin'>('staff');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Enforce staff tab restrictions
   useEffect(() => {
@@ -57,35 +65,21 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ defaultT
     setSearchParams({ tab });
   };
 
-  // Dedicated navigation tabs per role
-  const navItems = isDepartmentStaff
-    ? [
-        { id: 'tickets', label: 'Department Support Tickets', icon: Ticket },
-        { id: 'documents', label: 'Document Library', icon: FileText },
-      ]
-    : [
-        { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-        { id: 'tickets', label: 'Support Tickets', icon: Ticket },
-        { id: 'documents', label: 'Document Management', icon: FileText },
-        { id: 'knowledge-gaps', label: 'Knowledge Gaps', icon: HelpCircle },
-        { id: 'users', label: 'Staff Accounts', icon: Users, locked: !canManageUsers },
-        { id: 'config', label: 'Configuration', icon: Settings },
-        { id: 'monitoring', label: 'Monitoring & Latency', icon: Activity },
-      ];
-
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center space-y-4">
-        <div className="w-10 h-10 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin mx-auto" />
-        <p className="text-sm text-slate-500 font-medium">Validating institutional credentials...</p>
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+        <div className="text-center space-y-4">
+          <div className="w-10 h-10 border-4 border-brand-400 border-t-brand-600 rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-slate-400 font-medium">Validating institutional credentials...</p>
+        </div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-16 animate-fadeIn">
-        <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 shadow-xl text-center space-y-6">
+      <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 animate-fadeIn bg-slate-50">
+        <div className="max-w-2xl w-full bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 shadow-xl text-center space-y-6">
           <div className="w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
             <Lock className="w-8 h-8" />
           </div>
@@ -155,86 +149,102 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ defaultT
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 animate-fadeIn">
-      {/* Staff Session Header */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-card flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center space-x-3.5">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 text-white flex items-center justify-center font-bold text-base shadow shrink-0">
-            {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'S'}
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="font-bold text-slate-900 text-sm sm:text-base">{user?.full_name}</span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-brand-50 text-brand-700 border border-brand-200">
-                <Shield className="w-3 h-3 mr-1" />
-                {user?.role}
+    <div className="flex h-screen w-full overflow-hidden bg-slate-100 font-sans">
+      {/* 1. Left SaaS Sidebar */}
+      <AdminSidebar
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        isDepartmentStaff={isDepartmentStaff}
+        canManageUsers={canManageUsers}
+        user={user}
+        onLogout={() => logout()}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
+        isMobileOpen={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
+      />
+
+      {/* 2. Main Workspace Layout */}
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+        {/* SaaS Top App Bar */}
+        <header className="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shrink-0 shadow-xs z-20">
+          <div className="flex items-center space-x-3 min-w-0">
+            {/* Mobile Sidebar Hamburger */}
+            <button
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="md:hidden p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+              aria-label="Open sidebar menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+
+            {/* Breadcrumb & Section Title */}
+            <div className="flex items-center space-x-2 text-xs truncate">
+              <span className="font-semibold text-slate-400 hidden sm:inline">
+                {isDepartmentStaff ? 'Staff Portal' : 'Admin Console'}
+              </span>
+              <span className="text-slate-300 hidden sm:inline">/</span>
+              <span className="font-bold text-slate-900 truncate">
+                {tabTitles[activeTab]}
               </span>
             </div>
-            <div className="flex items-center space-x-3 text-xs text-slate-500 mt-0.5">
-              <span>{user?.email}</span>
-              {user?.department_name && (
-                <span className="flex items-center text-slate-600">
-                  <Building className="w-3.5 h-3.5 mr-1 text-slate-400 shrink-0" />
-                  {user.department_name}
+          </div>
+
+          {/* Right Header Actions */}
+          <div className="flex items-center space-x-3 shrink-0">
+            <span className="hidden lg:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <ShieldCheck className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+              Verified Circulars AY 2025-2026
+            </span>
+
+            <Link
+              to="/"
+              className="hidden sm:inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl transition-all shadow-xs"
+              title="Open Student Chatbot (Live Public View)"
+            >
+              <Bot className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Student Chatbot</span>
+              <ExternalLink className="w-3 h-3 text-slate-400 ml-0.5" />
+            </Link>
+
+            {/* Quick Profile Badge */}
+            <div className="flex items-center space-x-2 pl-2 border-l border-slate-200">
+              <div className="hidden sm:flex flex-col text-right">
+                <span className="text-xs font-bold text-slate-900 leading-tight truncate max-w-[120px]">
+                  {user?.full_name}
                 </span>
-              )}
+                <span className="text-[10px] text-brand-700 font-mono font-semibold">
+                  {user?.role}
+                </span>
+              </div>
+              <button
+                onClick={() => logout()}
+                title="Sign Out"
+                aria-label="Sign Out"
+                className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
             </div>
           </div>
-        </div>
+        </header>
 
-        <div className="flex items-center space-x-3 self-end md:self-center">
-          <button
-            onClick={() => logout()}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border border-rose-200 transition-colors"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-            <span>Sign Out</span>
-          </button>
-        </div>
-      </div>
-
-
-      {/* Navigation Tabs Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-card overflow-x-auto">
-        <nav className="flex space-x-1 min-w-max">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleTabChange(item.id as AdminTab)}
-                className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                  isActive
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
-                {item.locked && (
-                  <span className="ml-1 text-[10px] opacity-75">
-                    <Lock className="w-3 h-3 inline" />
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-
-      {/* Main Tab Content */}
-      <div className="min-h-[500px]">
-        {activeTab === 'overview' && <OverviewSection />}
-        {activeTab === 'tickets' && <TicketsSection />}
-        {activeTab === 'documents' && <DocumentsSection />}
-        {activeTab === 'knowledge-gaps' && (
-          <KnowledgeGapsSection onAddressGap={() => handleTabChange('documents')} />
-        )}
-        {activeTab === 'users' && <UserManagementSection />}
-        {activeTab === 'config' && <ConfigSection />}
-        {activeTab === 'monitoring' && <MonitoringSection />}
+        {/* 3. Main Scrollable Workspace Content */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+          <div className="max-w-7xl mx-auto">
+            {activeTab === 'overview' && <OverviewSection />}
+            {activeTab === 'tickets' && <TicketsSection />}
+            {activeTab === 'documents' && <DocumentsSection />}
+            {activeTab === 'knowledge-gaps' && (
+              <KnowledgeGapsSection onAddressGap={() => handleTabChange('documents')} />
+            )}
+            {activeTab === 'users' && <UserManagementSection />}
+            {activeTab === 'config' && <ConfigSection />}
+            {activeTab === 'monitoring' && <MonitoringSection />}
+          </div>
+        </main>
       </div>
     </div>
   );
 };
+

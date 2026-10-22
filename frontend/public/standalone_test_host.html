@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Host Website Integration Test — College AI Help Desk</title>
+  
+  <!-- 
+    INTENTIONAL HOST CSS OVERRIDES
+    This tests that the iframe architecture guarantees 100% CSS isolation.
+    Even though the host website uses aggressive global overrides, the widget
+    must render with pristine modern styling without any style bleeding!
+  -->
+  <style>
+    /* Aggressive Host Global Resets */
+    * {
+      box-sizing: content-box !important;
+      font-family: Georgia, 'Times New Roman', serif !important;
+    }
+
+    body {
+      background-color: #f4f6f8;
+      color: #222;
+      margin: 0;
+      padding: 30px;
+      line-height: 1.6;
+    }
+
+    /* Host button styles intended to collide if not isolated */
+    button {
+      background-color: #c026d3 !important;
+      color: #ffffff !important;
+      padding: 12px 20px !important;
+      border: 3px solid #86198f !important;
+      border-radius: 4px !important;
+      font-size: 15px !important;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #a21caf !important;
+    }
+
+    /* Host input styles */
+    input {
+      border: 3px solid #e11d48 !important;
+      background-color: #fff1f2 !important;
+      padding: 8px !important;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #059669;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .card {
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #2563eb;
+      padding: 20px;
+      margin: 20px 0;
+      background: #f8fafc;
+    }
+
+    .api-controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="badge">HOST EMBEDDING VERIFICATION SUITE</div>
+    <h1>St. Jude College of Engineering & Technology — Official Portal</h1>
+    <p>
+      This standalone page represents an existing traditional college website (such as WordPress, PHP, or legacy HTML).
+      It demonstrates the <strong>embeddable JavaScript loader snippet</strong> without requiring the college to rebuild its portal in React.
+    </p>
+
+    <div class="card">
+      <h3>Integration Code Snippet:</h3>
+      <pre style="background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 6px; overflow-x: auto; font-family: monospace !important; font-size: 13px;">
+&lt;!-- College AI Help Desk Embed Code --&gt;
+&lt;script
+  src="/widget.js"
+  data-chatbot-id="college-helpdesk"
+  data-api-base="http://127.0.0.1:8005"
+  data-position="bottom-right"
+  defer
+&gt;&lt;/script&gt;</pre>
+    </div>
+
+    <h3>Host JavaScript Control API Tests:</h3>
+    <p>The host website can also programmatically control the chatbot widget via the <code>window.CollegeHelpdesk</code> API:</p>
+
+    <div class="api-controls">
+      <button type="button" onclick="window.CollegeHelpdesk && window.CollegeHelpdesk.open()">
+        Open Chatbot (API)
+      </button>
+      <button type="button" onclick="window.CollegeHelpdesk && window.CollegeHelpdesk.close()">
+        Close Chatbot (API)
+      </button>
+      <button type="button" onclick="window.CollegeHelpdesk && window.CollegeHelpdesk.toggle()">
+        Toggle Chatbot (API)
+      </button>
+    </div>
+
+    <div class="card" style="margin-top: 30px; border-left-color: #059669;">
+      <h3>Verification Checklist for this Test Page:</h3>
+      <ul>
+        <li><strong>CSS Isolation:</strong> Notice the host page's magenta buttons and red borders. The floating widget launcher and chat panel inside the iframe remain 100% immune to host styling.</li>
+        <li><strong>Full-Stack RAG:</strong> Open the chat and ask questions (e.g. <em>"What is the hostel caution deposit fee?"</em>). The query is routed to the FastAPI backend with verified page citations.</li>
+        <li><strong>Language Toggle:</strong> Switch between English and தமிழ் inside the widget.</li>
+        <li><strong>Safe Refusal:</strong> Ask an out-of-scope question (e.g. <em>"Who won the 1994 FIFA world cup?"</em>) to observe the safe fallback and support ticket option.</li>
+        <li><strong>Keyboard Navigation:</strong> Press <code>ESC</code> to close the widget when open.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- EMBEDDABLE WIDGET SCRIPT -->
+  <script
+    src="/widget.js"
+    data-chatbot-id="college-helpdesk"
+    data-api-base="http://127.0.0.1:8005"
+    data-position="bottom-right"
+    defer
+  ></script>
+
+</body>
+</html>

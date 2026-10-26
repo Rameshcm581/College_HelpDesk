@@ -412,14 +412,15 @@ async def ingest_all_documents():
             doc_cited = resp.citations[0].document_title if resp.citations else "None (Safe Fallback)"
             page_cited = resp.citations[0].page_number if resp.citations else "-"
 
+            threshold = BaseConfig.RAG_CONFIDENCE_THRESHOLD
             status = "PASS"
             if domain == "Ungrounded Query":
-                if resp.fallback_triggered and top_sim < 0.72:
+                if resp.fallback_triggered and top_sim < threshold:
                     status = "PASS (Safe Refusal)"
                 else:
                     status = "FAIL"
             else:
-                if not resp.fallback_triggered and top_sim >= 0.72 and len(resp.citations) > 0:
+                if not resp.fallback_triggered and top_sim >= threshold and len(resp.citations) > 0:
                     status = "PASS (Grounded)"
                 else:
                     status = "FAIL"

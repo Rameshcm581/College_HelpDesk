@@ -3,10 +3,11 @@ import os
 import pathlib
 from dotenv import load_dotenv
 
-# Search for .env at Service level, then backend level, then root level
+# Search for .env at Service level, backend level, and project root level
 for env_path in [
     pathlib.Path(__file__).parent.parent / ".env",
     pathlib.Path(__file__).parent.parent.parent.parent / ".env",
+    pathlib.Path(__file__).parent.parent.parent.parent.parent / ".env",
 ]:
     if env_path.exists():
         load_dotenv(env_path)
@@ -54,6 +55,10 @@ class BaseConfig:
     OPENAI_CHAT_MODEL: str = os.getenv("OPENAI_CHAT_MODEL", "gpt-4o-mini")
     OPENAI_COMPLETION_MODEL: str = os.getenv("OPENAI_COMPLETION_MODEL", "gpt-4o")
     OPENAI_EMBEDDING_MODEL: str = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
+    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
+    GEMINI_EMBEDDING_MODEL: str = os.getenv("GEMINI_EMBEDDING_MODEL", "gemini-embedding-001")
+    EMBEDDING_PROVIDER: str = os.getenv("EMBEDDING_PROVIDER", "mock")
     EMBEDDING_DIMENSION: int = int(os.getenv("EMBEDDING_DIMENSION", "1536"))
     RAG_CONFIDENCE_THRESHOLD: float = float(os.getenv("RAG_CONFIDENCE_THRESHOLD", "0.72"))
 

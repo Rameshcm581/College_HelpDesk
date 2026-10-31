@@ -2,11 +2,12 @@ services:
   - type: web
     name: college-helpdesk-api
     runtime: python
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: cd Services/HelpdeskService && alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend/Services/HelpdeskService && alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port $PORT
     plan: free
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
       - key: APP_ENV
         value: prod
       - key: DEBUG

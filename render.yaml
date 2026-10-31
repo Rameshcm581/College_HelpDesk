@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: college-helpdesk-api
+    runtime: python
+    rootDir: college-ai-helpdesk/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd Services/HelpdeskService && alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: DEBUG
+        value: "false"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_URI
+        sync: false
+      - key: SYNC_DB_URI
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: CORS_ORIGINS
+        value: "https://*.vercel.app,http://localhost:5175"
+      - key: ALLOWED_EMBED_ORIGINS
+        value: "https://*.vercel.app,http://localhost:5175"

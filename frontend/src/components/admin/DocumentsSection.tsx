@@ -764,7 +764,7 @@ export const DocumentsSection: React.FC = () => {
 
                       {/* Download */}
                       <a
-                        href={`/api/v1/admin/documents/${detailData.id}/download?version_number=${ver.version_number}`}
+                        href={`${(import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/+$/, '') : '')}/api/v1/admin/documents/${detailData.id}/download?version_number=${ver.version_number}`}
                         target="_blank"
                         rel="noreferrer"
                         className="px-2.5 py-1.5 bg-white border border-slate-200 hover:border-slate-300 rounded-lg text-slate-700 font-semibold inline-flex items-center space-x-1"

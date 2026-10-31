@@ -2,7 +2,7 @@ services:
   - type: web
     name: college-helpdesk-api
     runtime: python
-    rootDir: college-ai-helpdesk/backend
+    rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: cd Services/HelpdeskService && alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port $PORT
     plan: free

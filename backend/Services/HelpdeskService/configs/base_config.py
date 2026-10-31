@@ -77,12 +77,12 @@ class BaseConfig:
 
     # CORS & Allowed Origins
     CORS_ORIGINS: list[str] = [
-        origin.strip()
+        origin.strip().rstrip('/')
         for origin in os.getenv("CORS_ORIGINS", "http://localhost:5175,http://localhost:3000,http://127.0.0.1:5175,http://localhost:8005").split(",")
         if origin.strip()
     ]
     ALLOWED_EMBED_ORIGINS: list[str] = [
-        origin.strip()
+        origin.strip().rstrip('/')
         for origin in os.getenv(
             "ALLOWED_EMBED_ORIGINS",
             "http://localhost:5175,http://127.0.0.1:5175,http://localhost:3000,http://localhost:8005"

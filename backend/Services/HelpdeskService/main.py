@@ -81,7 +81,21 @@ register_handlers(app)
 app.include_router(router)
 
 
+@app.get("/", tags=["Root"], include_in_schema=False)
+async def root_index():
+    """Root endpoint for status, service metadata, and health link."""
+    return {
+        "status": "healthy",
+        "service": BaseConfig.APP_NAME,
+        "version": BaseConfig.APP_VERSION,
+        "environment": BaseConfig.APP_ENV,
+        "docs": "/docs" if BaseConfig.DEBUG else None,
+        "health": "/health",
+    }
+
+
 @app.get("/health", tags=["Health & Readiness"], include_in_schema=False)
 async def root_health_alias():
     """Root alias for external load balancers and container healthchecks."""
     return {"status": "healthy", "service": BaseConfig.APP_NAME, "version": BaseConfig.APP_VERSION}
+

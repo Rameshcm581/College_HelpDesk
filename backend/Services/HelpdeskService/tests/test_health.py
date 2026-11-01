@@ -4,6 +4,18 @@ from httpx import AsyncClient
 
 
 @pytest.mark.asyncio
+async def test_root_index(async_client: AsyncClient):
+    """Verifies root endpoint GET / returns 200 OK and service metadata."""
+    response = await async_client.get("/")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "healthy"
+    assert "service" in data
+    assert "version" in data
+    assert "health" in data
+
+
+@pytest.mark.asyncio
 async def test_root_health_alias(async_client: AsyncClient):
     """Verifies external load balancer alias returns 200 OK and healthy status."""
     response = await async_client.get("/health")

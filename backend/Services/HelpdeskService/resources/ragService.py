@@ -351,6 +351,8 @@ class RAGOrchestrationService:
                 suggested_ticket=SuggestedTicket(default_category="GENERAL", prefilled_query=query),
             )
 
+        if evidence_chunks:
+            evidence_chunks.sort(key=lambda c: float(c.get("similarity") or 0.0), reverse=True)
         top_similarity = evidence_chunks[0]["similarity"] if evidence_chunks else 0.0
 
         # 4. Conflict Detection Between Retrieved Documents

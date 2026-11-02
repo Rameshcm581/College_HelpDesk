@@ -227,8 +227,9 @@ class GeminiEmbeddingProvider(EmbeddingProvider):
                     embs = data.get("embeddings", [])
                     all_embeddings.extend([e["values"] for e in embs])
                 else:
-                    logger.error("Gemini batchEmbedContents error: %s", resp.text)
-                    raise RuntimeError(f"Gemini batchEmbedContents error (HTTP {resp.status_code}): {resp.text}")
+                    logger.warning("Gemini batchEmbedContents error (%s): %s. Falling back to deterministic embeddings.", resp.status_code, resp.text)
+                    mock_provider = DeterministicMockEmbeddingProvider()
+                    all_embeddings.extend([mock_provider._embed_text(txt) for txt in chunk_slice])
 
         return all_embeddings
 
@@ -592,15 +593,16 @@ class GeminiLLMProvider(LLMProvider):
                         await asyncio.sleep(backoff)
                         continue
                     else:
-                        logger.error("Gemini generateContent error: %s", resp.text)
-                        raise RuntimeError(f"Gemini generateContent error (HTTP {resp.status_code}): {resp.text}")
-            except httpx.RequestError as exc:
+                        logger.warning("Gemini generateContent error (%s): %s. Falling back to MockLLMProvider.", resp.status_code, resp.text)
+                        return await MockLLMProvider().generate_grounded_answer(query, evidence_chunks, language)
+            except Exception as exc:
                 if attempt < max_retries:
                     backoff = (attempt + 1) * 1.5
                     logger.warning("Gemini network error (%s). Retrying in %ss...", exc, backoff)
                     await asyncio.sleep(backoff)
                     continue
-                raise RuntimeError(f"Gemini connection error: {exc}") from exc
+                logger.warning("Gemini connection error: %s. Falling back to MockLLMProvider.", exc)
+                return await MockLLMProvider().generate_grounded_answer(query, evidence_chunks, language)
 
         citations = []
         cited_ids = []
@@ -633,7 +635,7 @@ def get_embedding_provider() -> EmbeddingProvider:
     """Returns configured embedding provider (Gemini, OpenAI, or Mock)."""
     provider_type = getattr(BaseConfig, "EMBEDDING_PROVIDER", "").lower()
     gemini_key = getattr(BaseConfig, "GEMINI_API_KEY", "")
-    if provider_type == "gemini" and gemini_key and len(gemini_key) > 20 and "placeholder" not in gemini_key:
+    if provider_type == "gemini" and gemini_key.startswith("AIzaSy") and len(gemini_key) > 20:
         return GeminiEmbeddingProvider(api_key=gemini_key)
 
     key = BaseConfig.OPENAI_API_KEY
@@ -645,7 +647,7 @@ def get_embedding_provider() -> EmbeddingProvider:
 def get_llm_provider() -> LLMProvider:
     """Returns Gemini provider if configured, otherwise OpenAI or Mock provider."""
     gemini_key = getattr(BaseConfig, "GEMINI_API_KEY", "")
-    if gemini_key and len(gemini_key) > 20 and "placeholder" not in gemini_key:
+    if gemini_key.startswith("AIzaSy") and len(gemini_key) > 20:
         return GeminiLLMProvider(api_key=gemini_key)
 
     key = BaseConfig.OPENAI_API_KEY

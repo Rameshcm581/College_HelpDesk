@@ -1,5 +1,6 @@
 # backend/Services/HelpdeskService/resources/emailService.py
 import abc
+import asyncio
 import email.mime.multipart
 import email.mime.text
 import logging
@@ -36,9 +37,10 @@ class SmtpEmailProvider(EmailProvider):
     def __init__(self):
         self.host = os.getenv("SMTP_HOST", "").strip()
         self.port = int(os.getenv("SMTP_PORT", "587"))
-        self.username = os.getenv("SMTP_USERNAME", "").strip()
+        self.username = os.getenv("SMTP_USER", "").strip()  # env key is SMTP_USER
         self.password = os.getenv("SMTP_PASSWORD", "").strip()
         self.from_email = os.getenv("SMTP_FROM_EMAIL", "helpdesk@college.edu").strip()
+        self.from_name = os.getenv("SMTP_FROM_NAME", "College AI Help Desk").strip()
         self.use_tls = os.getenv("SMTP_USE_TLS", "true").lower() in ("true", "1", "yes")
 
     def is_configured(self) -> bool:
@@ -59,7 +61,7 @@ class SmtpEmailProvider(EmailProvider):
         try:
             msg = email.mime.multipart.MIMEMultipart("alternative")
             msg["Subject"] = subject
-            msg["From"] = self.from_email
+            msg["From"] = f"{self.from_name} <{self.from_email}>"
             msg["To"] = to_email
 
             part1 = email.mime.text.MIMEText(text_content, "plain")
@@ -67,12 +69,23 @@ class SmtpEmailProvider(EmailProvider):
             msg.attach(part1)
             msg.attach(part2)
 
-            with smtplib.SMTP(self.host, self.port, timeout=10) as server:
-                if self.use_tls:
-                    server.starttls()
-                if self.username and self.password:
-                    server.login(self.username, self.password)
-                server.sendmail(self.from_email, [to_email], msg.as_string())
+            raw_message = msg.as_string()
+            host, port, username, password, use_tls, from_email = (
+                self.host, self.port, self.username, self.password, self.use_tls, self.from_email
+            )
+
+            def _send_blocking():
+                with smtplib.SMTP(host, port, timeout=15) as server:
+                    if use_tls:
+                        server.ehlo()
+                        server.starttls()
+                        server.ehlo()
+                    if username and password:
+                        server.login(username, password)
+                    server.sendmail(from_email, [to_email], raw_message)
+
+            # Run blocking SMTP call in a thread so the async event loop is not blocked
+            await asyncio.to_thread(_send_blocking)
 
             logger.info("Email successfully dispatched via SMTP to %s", to_email)
             return True

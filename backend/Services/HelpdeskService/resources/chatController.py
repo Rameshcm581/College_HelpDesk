@@ -29,7 +29,34 @@ from resources.utils import mask_pii_for_logging
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-# ── IN-MEMORY RATE LIMITING (Sliding Window per IP with Key Eviction) ─────────
+# ── REDIS RATE LIMITER (Sliding Window – shared across replicas) ───────────────
+# Falls back to in-memory when Redis is unreachable (e.g. local dev without Redis).
+_redis_client = None
+
+
+def _get_redis():
+    """Lazily initialise a Redis client from REDIS_URL. Returns None on error."""
+    global _redis_client
+    if _redis_client is not None:
+        return _redis_client
+    try:
+        import redis as redis_lib  # noqa: PLC0415
+        client = redis_lib.from_url(
+            BaseConfig.REDIS_URL,
+            socket_connect_timeout=1,
+            socket_timeout=1,
+            decode_responses=True,
+        )
+        client.ping()  # Confirm connectivity
+        _redis_client = client
+        logger.info("Rate limiter: connected to Redis at %s", BaseConfig.REDIS_URL.split("@")[-1])
+    except Exception as exc:
+        logger.warning("Rate limiter: Redis unavailable (%s). Using in-memory fallback.", exc)
+        _redis_client = None
+    return _redis_client
+
+
+# In-memory fallback (single-replica only)
 _rate_limit_store = defaultdict(list)
 
 
@@ -47,23 +74,49 @@ def get_client_ip(request: Request) -> str:
 
 
 def check_rate_limit(client_ip: str, limit: int = None, window_sec: int = 60) -> bool:
-    """Returns True if within rate limit, False otherwise. Periodically prunes stale keys."""
+    """Returns True if within rate limit, False otherwise.
+    Uses Redis sliding-window (ZADD/ZREMRANGEBYSCORE/ZCARD) when available,
+    falling back to the in-process defaultdict store.
+    """
     max_requests = limit or BaseConfig.RATE_LIMIT_CHAT_PER_MINUTE
     now = time.time()
 
+    # ── Redis path ────────────────────────────────────────────────────────────
+    if BaseConfig.USE_REDIS_RATE_LIMIT:
+        r = _get_redis()
+        if r is not None:
+            try:
+                key = f"rl:chat:{client_ip}"
+                pipe = r.pipeline()
+                # Remove timestamps outside the sliding window
+                pipe.zremrangebyscore(key, 0, now - window_sec)
+                # Add current timestamp (score = wall-clock time)
+                pipe.zadd(key, {str(now): now})
+                # Count requests in window
+                pipe.zcard(key)
+                # Expire key automatically after the window
+                pipe.expire(key, window_sec + 5)
+                results = pipe.execute()
+                request_count = results[2]  # ZCARD result
+                return request_count <= max_requests
+            except Exception as exc:
+                logger.warning("Redis rate-limit check failed (%s). Falling back to in-memory.", exc)
+                _redis_client = None  # Reset so we retry next time
+
+    # ── In-memory fallback ────────────────────────────────────────────────────
     # Periodic cleanup to prevent unbounded memory growth under high IP churn
     if len(_rate_limit_store) > 1000:
         stale_keys = [k for k, v in _rate_limit_store.items() if not v or (now - v[-1] > window_sec)]
         for k in stale_keys:
             _rate_limit_store.pop(k, None)
 
-    # Filter out entries older than window
     timestamps = [t for t in _rate_limit_store[client_ip] if now - t < window_sec]
     if len(timestamps) >= max_requests:
         return False
     timestamps.append(now)
     _rate_limit_store[client_ip] = timestamps
     return True
+
 
 
 def validate_embed_origin(request: Request) -> bool:

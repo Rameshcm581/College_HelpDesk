@@ -92,3 +92,23 @@ class BaseConfig:
 
     # Rate Limiting
     RATE_LIMIT_CHAT_PER_MINUTE: int = int(os.getenv("RATE_LIMIT_CHAT_PER_MINUTE", "60"))
+    # When USE_REDIS_RATE_LIMIT=true the chat rate limiter uses the Upstash/Redis
+    # sliding-window counter instead of the in-process defaultdict, which makes
+    # the limit work correctly across multiple replicas.
+    USE_REDIS_RATE_LIMIT: bool = os.getenv("USE_REDIS_RATE_LIMIT", "true").lower() == "true"
+
+    # SMTP – Institutional Email Notifications
+    SMTP_HOST: str = os.getenv("SMTP_HOST", "").strip()
+    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER: str = os.getenv("SMTP_USER", "").strip()
+    SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "").strip()
+    SMTP_FROM_EMAIL: str = os.getenv("SMTP_FROM_EMAIL", "helpdesk@college.edu").strip()
+    SMTP_FROM_NAME: str = os.getenv("SMTP_FROM_NAME", "College AI Help Desk").strip()
+    SMTP_USE_TLS: bool = os.getenv("SMTP_USE_TLS", "true").lower() in ("true", "1", "yes")
+
+    # Celery / Background Jobs
+    CELERY_BEAT_ENABLED: bool = os.getenv("CELERY_BEAT_ENABLED", "true").lower() == "true"
+    # Scheduled web-scraper runs (cron format strings, IST)
+    SCRAPER_SCHEDULE_CRON: str = os.getenv("SCRAPER_SCHEDULE_CRON", "0 2 * * *")   # 02:00 IST daily
+    DB_BACKUP_SCHEDULE_CRON: str = os.getenv("DB_BACKUP_SCHEDULE_CRON", "0 3 * * *")  # 03:00 IST daily
+

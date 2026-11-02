@@ -149,18 +149,20 @@ async def execute_document_indexing_job(job_id: uuid.UUID) -> Dict[str, Any]:
         try:
             pages = []
             if job.job_type == "PDF_UPLOAD":
-                file_path = pathlib.Path(version.storage_path)
-                pages = pdf_service.extract_pages(file_path.read_bytes(), allow_ocr=True)
+                content = storage_service.get_document_bytes(version.storage_path)
+                pages = pdf_service.extract_pages(content, allow_ocr=True)
             elif job.job_type in ("WEBSITE_URL", "INDEXING"):
                 source_url = job.source_url or (job.job_metadata or {}).get("source_url")
                 if source_url:
                     _, _, html_bytes = await web_scraper_service.fetch_url_content(source_url)
                     _, pages = web_scraper_service.parse_web_content(html_bytes, source_url)
-                else:
+                elif version.storage_path:
                     # Fallback to re-reading storage_path if available
-                    file_path = pathlib.Path(version.storage_path)
-                    if file_path.exists():
-                        pages = pdf_service.extract_pages(file_path.read_bytes(), allow_ocr=True)
+                    try:
+                        content = storage_service.get_document_bytes(version.storage_path)
+                        pages = pdf_service.extract_pages(content, allow_ocr=True)
+                    except Exception as err:
+                        logger.warning(f"Could not read from storage_path {version.storage_path}: {err}")
 
             # Generate chunks
             chunks_data = pdf_service.chunk_document(

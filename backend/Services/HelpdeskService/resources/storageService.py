@@ -3,7 +3,7 @@ import io
 import logging
 import pathlib
 import uuid
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple
 import boto3
 from botocore.config import Config
 from botocore.exceptions import ClientError
@@ -92,28 +92,70 @@ class StorageService:
 
         return str(local_path) if local_path else key
 
-    def get_document_bytes(self, storage_path: str) -> bytes:
-        """Retrieves document bytes from Neon S3 or local filesystem."""
+    def _candidate_s3_keys(self, storage_path: str) -> List[Tuple[str, str]]:
+        """Extracts possible (bucket, key) pairs from a given storage path,
+        supporting neon:// URIs, absolute container paths, and relative paths.
+        """
+        candidates: List[Tuple[str, str]] = []
+
         if storage_path.startswith("neon://"):
             parts = storage_path.replace("neon://", "").split("/", 1)
             bucket = parts[0]
             key = parts[1] if len(parts) > 1 else ""
-            if self.is_neon_enabled:
-                resp = self._s3_client.get_object(Bucket=bucket, Key=key)
-                return resp["Body"].read()
+            candidates.append((bucket, key))
 
-        # Check local filesystem
-        local_p = pathlib.Path(storage_path)
-        if local_p.exists():
-            return local_p.read_bytes()
+        # Standardize path separators
+        clean_path = storage_path.replace("\\", "/").strip()
 
-        # If it's a key without protocol and Neon is enabled
+        # If path contains 'documents/' (standard document layout)
+        if "documents/" in clean_path:
+            doc_key = "documents/" + clean_path.split("documents/", 1)[1]
+            candidates.append((self._bucket, doc_key))
+            candidates.append((self._bucket, f"backend/storage/{doc_key}"))
+
+        # If path contains 'backend/storage/'
+        if "backend/storage/" in clean_path:
+            bs_key = clean_path.split("backend/storage/", 1)[1]
+            candidates.append((self._bucket, bs_key))
+            candidates.append((self._bucket, f"backend/storage/{bs_key}"))
+
+        # Strip leading ./ or /
+        trimmed = clean_path.lstrip("./").lstrip("/")
+        if trimmed and (self._bucket, trimmed) not in candidates:
+            candidates.append((self._bucket, trimmed))
+
+        # Raw key
+        if clean_path and (self._bucket, clean_path) not in candidates:
+            candidates.append((self._bucket, clean_path))
+
+        return candidates
+
+    def get_document_bytes(self, storage_path: str) -> bytes:
+        """Retrieves document bytes from local filesystem or Neon S3.
+        Supports both modern neon:// URIs and legacy local paths.
+        """
+        # 1. Check local filesystem first if file exists on this node
+        try:
+            local_p = pathlib.Path(storage_path)
+            if local_p.exists() and local_p.is_file():
+                return local_p.read_bytes()
+        except Exception:
+            pass
+
+        # 2. Try resolving via Neon S3 using candidate keys
         if self.is_neon_enabled:
-            try:
-                resp = self._s3_client.get_object(Bucket=self._bucket, Key=storage_path)
-                return resp["Body"].read()
-            except ClientError as ce:
-                logger.warning("Object not found in Neon S3: %s", ce)
+            for bucket, key in self._candidate_s3_keys(storage_path):
+                try:
+                    resp = self._s3_client.get_object(Bucket=bucket, Key=key)
+                    data = resp["Body"].read()
+                    logger.debug("Resolved storage_path '%s' from S3 key '%s/%s'", storage_path, bucket, key)
+                    return data
+                except ClientError as ce:
+                    error_code = ce.response.get("Error", {}).get("Code")
+                    if error_code != "NoSuchKey":
+                        logger.warning("S3 GetObject error (%s) on '%s/%s'", error_code, bucket, key)
+                except Exception as exc:
+                    logger.debug("Candidate S3 key '%s/%s' failed: %s", bucket, key, exc)
 
         raise FileNotFoundError(f"Storage path '{storage_path}' cannot be resolved locally or on Neon.")
 
@@ -124,18 +166,16 @@ class StorageService:
         download_filename: Optional[str] = None,
     ) -> Optional[str]:
         """Generates a secure S3 presigned GET URL with custom Content-Disposition header.
-        Returns None if Neon S3 is disabled or storage_path is strictly local.
+        Returns None if Neon S3 is disabled or key cannot be resolved.
         """
         if not self.is_neon_enabled:
             return None
 
-        key = storage_path
-        bucket = self._bucket
-        if storage_path.startswith("neon://"):
-            parts = storage_path.replace("neon://", "").split("/", 1)
-            bucket = parts[0]
-            key = parts[1] if len(parts) > 1 else ""
+        candidates = self._candidate_s3_keys(storage_path)
+        if not candidates:
+            return None
 
+        bucket, key = candidates[0]
         params = {"Bucket": bucket, "Key": key}
         if download_filename:
             safe_name = download_filename.replace('"', '\\"')

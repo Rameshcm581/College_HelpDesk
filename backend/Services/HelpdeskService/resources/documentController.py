@@ -592,6 +592,7 @@ async def download_document_file(
             },
         )
     except Exception as exc:
+        logger.warning("Download failed for doc_id=%s ver=%s (path: %s): %s", doc_id, ver.version_number, ver.storage_path, exc)
         raise NotFoundError("Stored document file missing from storage.")
 
 

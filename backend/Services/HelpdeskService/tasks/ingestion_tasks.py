@@ -22,6 +22,7 @@ from models.models import (
 )
 from resources.aiService import get_embedding_provider
 from resources.pdfService import pdf_service
+from resources.storageService import storage_service
 from resources.webScraperService import web_scraper_service
 
 logger = logging.getLogger(__name__)
@@ -56,10 +57,7 @@ async def execute_document_extraction_job(job_id: uuid.UUID) -> Dict[str, Any]:
             extracted_title = None
 
             if job.job_type == "PDF_UPLOAD":
-                file_path = pathlib.Path(version.storage_path)
-                if not file_path.exists():
-                    raise FileNotFoundError(f"Stored PDF file missing at {file_path}")
-                content = file_path.read_bytes()
+                content = storage_service.get_document_bytes(version.storage_path)
                 # Run PDF extraction (allowing OCR on scanned pages)
                 pages = pdf_service.extract_pages(content, allow_ocr=True)
 

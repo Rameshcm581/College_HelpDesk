@@ -21,6 +21,7 @@ from models.models import (
     UserRole,
     Users,
 )
+from configs.base_config import BaseConfig
 from resources.errors import OCRExtractionError, SSRFValidationError
 from resources.pdfService import ExtractedPage, pdf_service
 from resources.ragService import rag_service
@@ -30,6 +31,9 @@ from tasks.ingestion_tasks import (
     execute_document_extraction_job,
     execute_document_indexing_job,
 )
+
+# Use mock embedding provider for ingestion tests
+BaseConfig.EMBEDDING_PROVIDER = "mock"
 
 SAMPLE_PDF_PATH = pathlib.Path(__file__).resolve().parents[3] / "storage" / "demo_college_regulations_2025_2026.pdf"
 

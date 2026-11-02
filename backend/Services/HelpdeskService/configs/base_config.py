@@ -71,9 +71,15 @@ class BaseConfig:
     RERANKER_TOP_K: int = int(os.getenv("RERANKER_TOP_K", "5"))
     MULTILINGUAL_EXPANSION_ENABLED: bool = os.getenv("MULTILINGUAL_EXPANSION_ENABLED", "true").lower() == "true"
 
-    # Storage
+    # Storage & Neon S3 Object Storage
     STORAGE_PATH: str = os.getenv("STORAGE_PATH", "./storage")
     MAX_UPLOAD_SIZE_MB: int = int(os.getenv("MAX_UPLOAD_SIZE_MB", "50"))
+    AWS_ENDPOINT_URL_S3: str = os.getenv("AWS_ENDPOINT_URL_S3", "").strip()
+    AWS_ACCESS_KEY_ID: str = os.getenv("AWS_ACCESS_KEY_ID", "").strip()
+    AWS_SECRET_ACCESS_KEY: str = os.getenv("AWS_SECRET_ACCESS_KEY", "").strip()
+    AWS_REGION: str = os.getenv("AWS_REGION", "ap-southeast-1").strip()
+    NEON_STORAGE_BUCKET: str = os.getenv("NEON_STORAGE_BUCKET", "storage").strip()
+    USE_NEON_STORAGE: bool = os.getenv("USE_NEON_STORAGE", "false").lower() in ("true", "1", "yes")
 
     # CORS & Allowed Origins
     CORS_ORIGINS: list[str] = [

@@ -5,6 +5,7 @@ export default defineConfig({
   auth: false,
   buckets: {
     // "private" is the default; use "public_read" for anonymous reads
+    storage: { access: "private" },
     assets: { access: "private" },
   },
   // Branch policy: per-branch tuning

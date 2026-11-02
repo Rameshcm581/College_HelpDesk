@@ -31,6 +31,7 @@ from resources.schemas import (
     DocumentRejectRequest,
     UrlIngestRequest,
 )
+from resources.storageService import storage_service
 from resources.utils import calculate_sha256
 from resources.webScraperService import web_scraper_service
 from tasks.ingestion_tasks import queue_ingestion_job
@@ -115,14 +116,20 @@ async def upload_document(
     # 4. Generate safe storage path and save content
     doc_id = uuid.uuid4()
     storage_path = pdf_service.generate_safe_storage_path(doc_id, version_number=1, original_filename=file.filename or "upload.pdf")
-    storage_path.write_bytes(file_bytes)
+    s3_key = storage_service.generate_storage_key(doc_id, version_number=1)
+    stored_path = storage_service.put_document_bytes(
+        key=s3_key,
+        content=file_bytes,
+        content_type="application/pdf",
+        local_path=storage_path,
+    )
 
     # 5. Persist Document & Version records in UPLOADED state
     new_doc = Documents(
         id=doc_id,
         title=title.strip(),
         file_name=file.filename or "document.pdf",
-        storage_path=str(storage_path),
+        storage_path=stored_path,
         mime_type="application/pdf",
         file_size_bytes=len(file_bytes),
         checksum_sha256=checksum,
@@ -139,7 +146,7 @@ async def upload_document(
         document_id=new_doc.id,
         version_number=1,
         file_name=file.filename or "document.pdf",
-        storage_path=str(storage_path),
+        storage_path=stored_path,
         mime_type="application/pdf",
         file_size_bytes=len(file_bytes),
         checksum_sha256=checksum,
@@ -305,14 +312,20 @@ async def replace_document_version(
     next_version = max_ver + 1
 
     storage_path = pdf_service.generate_safe_storage_path(doc.id, version_number=next_version, original_filename=file.filename or "replacement.pdf")
-    storage_path.write_bytes(file_bytes)
+    s3_key = storage_service.generate_storage_key(doc.id, version_number=next_version)
+    stored_path = storage_service.put_document_bytes(
+        key=s3_key,
+        content=file_bytes,
+        content_type="application/pdf",
+        local_path=storage_path,
+    )
 
     # Stage new version in UPLOADED state (active version remains active and untouched!)
     new_version = DocumentVersions(
         document_id=doc.id,
         version_number=next_version,
         file_name=file.filename or f"replacement_v{next_version}.pdf",
-        storage_path=str(storage_path),
+        storage_path=stored_path,
         mime_type="application/pdf",
         file_size_bytes=len(file_bytes),
         checksum_sha256=checksum,
@@ -552,21 +565,34 @@ async def download_document_file(
     if not ver:
         raise NotFoundError(f"File for document '{doc_id}' not found.")
 
-    file_path = pathlib.Path(ver.storage_path)
-    if not file_path.exists():
-        raise NotFoundError("Stored document file missing on disk.")
-
     safe_download_name = f"document_{doc_id}_v{ver.version_number}.pdf"
 
-    return FileResponse(
-        path=str(file_path),
-        media_type="application/pdf",
-        filename=safe_download_name,
-        headers={
-            "Content-Disposition": f'attachment; filename="{safe_download_name}"',
-            "X-Content-Type-Options": "nosniff",
-        },
-    )
+    # Check local filesystem cache first
+    file_path = pathlib.Path(ver.storage_path)
+    if file_path.exists():
+        return FileResponse(
+            path=str(file_path),
+            media_type="application/pdf",
+            filename=safe_download_name,
+            headers={
+                "Content-Disposition": f'attachment; filename="{safe_download_name}"',
+                "X-Content-Type-Options": "nosniff",
+            },
+        )
+
+    # Fetch from Neon S3 Object Storage
+    try:
+        content_bytes = storage_service.get_document_bytes(ver.storage_path)
+        return Response(
+            content=content_bytes,
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f'attachment; filename="{safe_download_name}"',
+                "X-Content-Type-Options": "nosniff",
+            },
+        )
+    except Exception as exc:
+        raise NotFoundError("Stored document file missing from storage.")
 
 
 # ── 10. LIST DOCUMENTS & DETAILS ─────────────────────────────────────────────

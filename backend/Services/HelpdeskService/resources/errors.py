@@ -63,12 +63,36 @@ class RateLimitError(AppException):
         super().__init__(message=message, code="RATE_LIMIT_EXCEEDED", status_code=status.HTTP_429_TOO_MANY_REQUESTS, details=details)
 
 
+from configs.base_config import BaseConfig
+
+
+def _cors_headers(request: Request) -> dict:
+    origin = request.headers.get("origin")
+    if not origin:
+        return {}
+    clean = origin.rstrip("/")
+    if (
+        clean in BaseConfig.CORS_ORIGINS
+        or clean.endswith(".vercel.app")
+        or "localhost" in clean
+        or "127.0.0.1" in clean
+    ):
+        return {
+            "Access-Control-Allow-Origin": origin,
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": "*",
+        }
+    return {}
+
+
 def register_handlers(app: FastAPI) -> None:
     @app.exception_handler(AppException)
-    async def app_exception_handler(_request: Request, exc: AppException):
+    async def app_exception_handler(request: Request, exc: AppException):
         logger.warning("AppException: %s [%s] details=%s", exc.message, exc.code, exc.details)
         return JSONResponse(
             status_code=exc.status_code,
+            headers=_cors_headers(request),
             content={
                 "success": False,
                 "error": {
@@ -81,10 +105,11 @@ def register_handlers(app: FastAPI) -> None:
         )
 
     @app.exception_handler(StarletteHTTPException)
-    async def http_exception_handler(_request: Request, exc: StarletteHTTPException):
+    async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         logger.warning("HTTPException: %s (status %s)", exc.detail, exc.status_code)
         return JSONResponse(
             status_code=exc.status_code,
+            headers=_cors_headers(request),
             content={
                 "success": False,
                 "error": {
@@ -97,10 +122,11 @@ def register_handlers(app: FastAPI) -> None:
         )
 
     @app.exception_handler(RequestValidationError)
-    async def validation_exception_handler(_request: Request, exc: RequestValidationError):
+    async def validation_exception_handler(request: Request, exc: RequestValidationError):
         logger.warning("Validation error on request: %s", exc.errors())
         return JSONResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            headers=_cors_headers(request),
             content={
                 "success": False,
                 "error": {
@@ -113,10 +139,11 @@ def register_handlers(app: FastAPI) -> None:
         )
 
     @app.exception_handler(Exception)
-    async def general_exception_handler(_request: Request, exc: Exception):
+    async def general_exception_handler(request: Request, exc: Exception):
         logger.exception("Unhandled server exception: %s", exc)
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            headers=_cors_headers(request),
             content={
                 "success": False,
                 "error": {

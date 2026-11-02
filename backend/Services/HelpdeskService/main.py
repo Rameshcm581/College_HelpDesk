@@ -49,17 +49,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ── CORS Middleware ───────────────────────────────────────────────────────────
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=BaseConfig.CORS_ORIGINS,
-    allow_origin_regex=r"^https:\/\/.*\.vercel\.app$",
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
 @app.middleware("http")
 async def add_security_headers(request, call_next):
     """Enforces Content-Security-Policy frame-ancestors and defense headers."""
@@ -72,6 +61,17 @@ async def add_security_headers(request, call_next):
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     return response
+
+
+# ── CORS Middleware (Outermost middleware) ────────────────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=BaseConfig.CORS_ORIGINS,
+    allow_origin_regex=r"^https:\/\/.*\.vercel\.app$",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # ── Global Error Handling ─────────────────────────────────────────────────────

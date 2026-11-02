@@ -515,10 +515,13 @@ export async function fetchDocumentDetail(docId: string): Promise<DocumentDetail
 
 export async function uploadDocumentFile(formData: FormData): Promise<{ document_id: string; job_id: string }> {
   const token = getStoredToken();
-  const headers: HeadersInit = {};
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+  if (!token) {
+    throw new Error('Authentication required. Please sign in before uploading documents.');
   }
+
+  const headers: HeadersInit = {
+    Authorization: `Bearer ${token}`,
+  };
 
   const res = await fetch(`${API_BASE}/admin/documents/upload`, {
     method: 'POST',
@@ -528,17 +531,20 @@ export async function uploadDocumentFile(formData: FormData): Promise<{ document
 
   const json = await res.json();
   if (!res.ok || !json.success) {
-    throw new Error(json.message || `Document upload failed (${res.status})`);
+    throw new Error(json.error?.message || json.message || `Document upload failed (${res.status})`);
   }
   return json.data;
 }
 
 export async function replaceDocumentVersion(docId: string, formData: FormData): Promise<{ document_id: string; version_number: number }> {
   const token = getStoredToken();
-  const headers: HeadersInit = {};
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+  if (!token) {
+    throw new Error('Authentication required. Please sign in before replacing documents.');
   }
+
+  const headers: HeadersInit = {
+    Authorization: `Bearer ${token}`,
+  };
 
   const res = await fetch(`${API_BASE}/admin/documents/${docId}/replace`, {
     method: 'POST',
@@ -548,9 +554,57 @@ export async function replaceDocumentVersion(docId: string, formData: FormData):
 
   const json = await res.json();
   if (!res.ok || !json.success) {
-    throw new Error(json.message || `Document replacement failed (${res.status})`);
+    throw new Error(json.error?.message || json.message || `Document replacement failed (${res.status})`);
   }
   return json.data;
+}
+
+export function getDocumentDownloadUrl(docId: string, versionNumber?: number): string {
+  const token = getStoredToken();
+  const base = `${API_BASE}/admin/documents/${docId}/download`;
+  const params = new URLSearchParams();
+  if (versionNumber) {
+    params.set('version_number', String(versionNumber));
+  }
+  if (token) {
+    params.set('token', token);
+  }
+  const queryStr = params.toString();
+  return queryStr ? `${base}?${queryStr}` : base;
+}
+
+export async function downloadDocumentFile(docId: string, versionNumber?: number, fileName?: string): Promise<void> {
+  const params = new URLSearchParams();
+  if (versionNumber) {
+    params.set('version_number', String(versionNumber));
+  }
+  const queryStr = params.toString();
+  const url = `${API_BASE}/admin/documents/${docId}/download${queryStr ? `?${queryStr}` : ''}`;
+
+  const res = await fetch(url, {
+    headers: getAuthHeaders(),
+  });
+
+  if (!res.ok) {
+    let errMessage = `Download failed (${res.status})`;
+    try {
+      const json = await res.json();
+      errMessage = json.error?.message || json.message || errMessage;
+    } catch {
+      // not a json response
+    }
+    throw new Error(errMessage);
+  }
+
+  const blob = await res.blob();
+  const objectUrl = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = objectUrl;
+  a.download = fileName || `document_${docId}_v${versionNumber || 1}.pdf`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(objectUrl);
 }
 
 export async function previewDocumentVersion(docId: string, versionId: string): Promise<DocumentVersionDetail> {

@@ -1,6 +1,6 @@
-# backend/Services/HelpdeskService/resources/authController.py
+from typing import Optional
 import uuid
-from fastapi import APIRouter, Depends, Header, Response, status
+from fastapi import APIRouter, Depends, Header, Query, Response, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -52,15 +52,21 @@ async def login(
 
 @router.get("/me", response_model=ApiResponse, tags=["Authentication"])
 async def get_current_user(
-    authorization: str = Header(None),
+    authorization: Optional[str] = Header(None),
+    token: Optional[str] = Query(None),
     db: AsyncSession = Depends(get_db),
 ):
     """Returns currently authenticated staff user."""
-    if not authorization or not authorization.startswith("Bearer "):
+    raw_token = None
+    if authorization and authorization.startswith("Bearer "):
+        raw_token = authorization.split(" ")[1]
+    elif token and token.strip():
+        raw_token = token.strip()
+
+    if not raw_token:
         raise UnauthorizedError("Missing or malformed Authorization header.")
 
-    token = authorization.split(" ")[1]
-    payload = decode_access_token(token)
+    payload = decode_access_token(raw_token)
     if not payload or "sub" not in payload:
         raise UnauthorizedError("Token is invalid or has expired.")
 

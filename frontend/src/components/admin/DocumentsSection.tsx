@@ -20,9 +20,11 @@ import {
 import {
   approveDocumentVersion,
   archiveDocument,
+  downloadDocumentFile,
   fetchAdminMetadata,
   fetchDocumentDetail,
   fetchDocuments,
+  getDocumentDownloadUrl,
   previewDocumentVersion,
   rejectDocumentVersion,
   replaceDocumentVersion,
@@ -64,6 +66,8 @@ export const DocumentsSection: React.FC = () => {
   const [detailData, setDetailData] = useState<DocumentDetail | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [downloadingVerId, setDownloadingVerId] = useState<string | null>(null);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   // Action Confirmation Modals
   const [confirmApprove, setConfirmApprove] = useState<{ docId: string; versionId: string } | null>(null);
@@ -259,6 +263,19 @@ export const DocumentsSection: React.FC = () => {
       alert(err instanceof Error ? err.message : 'Archival failed');
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  const handleDownload = async (docId: string, versionNumber: number, fileName: string, verId: string) => {
+    try {
+      setDownloadingVerId(verId);
+      setDownloadError(null);
+      await downloadDocumentFile(docId, versionNumber, fileName);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Download failed.';
+      setDownloadError(message);
+    } finally {
+      setDownloadingVerId(null);
     }
   };
 
@@ -717,6 +734,19 @@ export const DocumentsSection: React.FC = () => {
               </button>
             </div>
 
+            {downloadError && (
+              <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center justify-between">
+                <span>{downloadError}</span>
+                <button
+                  type="button"
+                  onClick={() => setDownloadError(null)}
+                  className="text-rose-500 hover:text-rose-700 font-bold ml-2"
+                >
+                  &times;
+                </button>
+              </div>
+            )}
+
             {detailLoading ? (
               <div className="p-8 text-center text-xs text-slate-500">
                 <RefreshCw className="w-6 h-6 animate-spin mx-auto text-brand-600 mb-2" />
@@ -764,13 +794,22 @@ export const DocumentsSection: React.FC = () => {
 
                       {/* Download */}
                       <a
-                        href={`${(import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/+$/, '') : '')}/api/v1/admin/documents/${detailData.id}/download?version_number=${ver.version_number}`}
+                        href={getDocumentDownloadUrl(detailData.id, ver.version_number)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleDownload(detailData.id, ver.version_number, ver.file_name, ver.id);
+                        }}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-2.5 py-1.5 bg-white border border-slate-200 hover:border-slate-300 rounded-lg text-slate-700 font-semibold inline-flex items-center space-x-1"
+                        className="px-2.5 py-1.5 bg-white border border-slate-200 hover:border-slate-300 rounded-lg text-slate-700 font-semibold inline-flex items-center space-x-1 cursor-pointer transition-colors"
+                        title="Download verified PDF document"
                       >
-                        <Download className="w-3.5 h-3.5" />
-                        <span>Download</span>
+                        {downloadingVerId === ver.id ? (
+                          <div className="w-3.5 h-3.5 border-2 border-slate-400 border-t-slate-700 rounded-full animate-spin" />
+                        ) : (
+                          <Download className="w-3.5 h-3.5" />
+                        )}
+                        <span>{downloadingVerId === ver.id ? 'Downloading...' : 'Download'}</span>
                       </a>
 
                       {/* Approve / Reject Actions */}

@@ -1,7 +1,7 @@
 # backend/Services/HelpdeskService/resources/authDeps.py
 import uuid
 from typing import List, Optional
-from fastapi import Depends, Header
+from fastapi import Depends, Header, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import get_db
@@ -20,14 +20,23 @@ ROLE_EQUIVALENCE = {
 
 async def get_current_user(
     authorization: Optional[str] = Header(None),
+    token: Optional[str] = Query(None),
     db: AsyncSession = Depends(get_db),
 ) -> Users:
-    """Dependency that extracts and validates the JWT Bearer token and returns the current user."""
-    if not authorization or not authorization.startswith("Bearer "):
+    """Dependency that extracts and validates the JWT Bearer token and returns the current user.
+    Supports either Authorization: Bearer <token> header or ?token=<token> query parameter
+    (essential for browser file downloads, preview tabs, and native window.open navigation).
+    """
+    raw_token = None
+    if authorization and authorization.startswith("Bearer "):
+        raw_token = authorization.split(" ")[1]
+    elif token and token.strip():
+        raw_token = token.strip()
+
+    if not raw_token:
         raise UnauthorizedError("Missing or malformed Authorization header.")
 
-    token = authorization.split(" ")[1]
-    payload = decode_access_token(token)
+    payload = decode_access_token(raw_token)
     if not payload or "sub" not in payload:
         raise UnauthorizedError("Token is invalid or has expired.")
 

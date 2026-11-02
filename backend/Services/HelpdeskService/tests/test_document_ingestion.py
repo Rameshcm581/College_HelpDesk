@@ -465,3 +465,15 @@ async def test_secure_download_headers(async_client: AsyncClient, admin_auth_tok
     assert resp.headers.get("content-type") == "application/pdf"
     assert "attachment" in resp.headers.get("content-disposition", "")
     assert resp.headers.get("x-content-type-options") == "nosniff"
+
+    # Also verify download using ?token= query parameter (for direct browser downloads / new tab links)
+    resp_query = await async_client.get(f"/api/v1/admin/documents/{doc_id}/download?token={token}")
+    assert resp_query.status_code == 200
+    assert resp_query.headers.get("content-type") == "application/pdf"
+    assert "attachment" in resp_query.headers.get("content-disposition", "")
+
+    # Unauthenticated request without header or token must return 401
+    resp_unauth = await async_client.get(f"/api/v1/admin/documents/{doc_id}/download")
+    assert resp_unauth.status_code == 401
+    unauth_data = resp_unauth.json()
+    assert unauth_data["error"]["code"] == "UNAUTHORIZED"
